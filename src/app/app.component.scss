@@ -32,8 +32,8 @@
 
 .messages .message.left .text_wrapper::after,
 .messages .message.left .text_wrapper::before {
-    right: 50%;
-    border-right-color: #ffe6cb;
+    right: 100%;
+    border-right-color: #eaeaea;
 }
 
 .messages .message.left .text {
@@ -41,8 +41,8 @@
 }
 
 .messages .message.right .avatar {
-    background-color: #fdbf68;
-    float: right;
+    //background-color: #fdbf68;
+    //float: right;
 }
 
 .messages .message.right .text_wrapper {
