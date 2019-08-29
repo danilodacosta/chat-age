@@ -1,5 +1,5 @@
 .row {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
 .messages {
@@ -8,7 +8,7 @@
     padding: 20px 10px 0 10px;
     margin: 0;
     overflow: scroll;
-    height: 600px;
+    height: 380px;
     box-sizing: border-box;
 }
 
@@ -21,12 +21,12 @@
 }
 
 .messages .message.left .avatar {
-    background-color: #f5886e;
+    background-color: #1f9848;
     float: left;
 }
 
 .messages .message.left .text_wrapper {
-    background-color: #ffe6cb;
+    background-color: #eaeaea;
     margin-left: 20px;
 }
 
@@ -37,7 +37,7 @@
 }
 
 .messages .message.left .text {
-    color: #c48843;
+    color: #1f9848;
 }
 
 .messages .message.right .avatar {
@@ -104,7 +104,7 @@
 }
 
 .messages .message .text_wrapper .text {
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 300;
 }
 

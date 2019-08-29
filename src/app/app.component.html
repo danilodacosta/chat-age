@@ -1,9 +1,13 @@
+<nav class="navbar navbar-expand-lg navbar-light" style="background: #eaeaea; color:#1f9848">
+    <h4><i class="fas fa-robot"></i> Fale com o ai-age ChatBoot </h4>
+</nav>
 <div class="container">
-  <div class="row align-items-center">
+ <!-- <div class="row align-items-center">
     <div class="mx-auto">
       <h3><i class="fas fa-robot"></i> Ai-Age ChatBoot </h3>
     </div>
   </div>
+  -->
 
   <div class="row align-items-center justify-content-center">
     <div class="col-lg-8">
@@ -19,6 +23,10 @@
               </div>
             </div>
           </li>
+
+          <!--Buttons-->
+
+
         </div>
         <div *ngIf="consultando">
             <div class="spinner-grow spinner-grow-sm" role="status"></div>
@@ -31,9 +39,9 @@
 
   <div class="row align-items-center justify-content-center mb-5">
     <div class="col-sm-6">
-      <input type="text" class="form-control mt-3" (keyup.enter)="sendMessage()" [(ngModel)]="msg" />
+      <input placeholder="Digite uma mensagem" type="text" class="form-control mt-3" (keyup.enter)="sendMessage()" [(ngModel)]="msg" />
     </div>
     <div class="col-sm-2">
-      <button class="btn btn-success sendbtn mt-3" (click)="sendMessage()"><i class="far fa-share-square"></i> Enviar</button>
+      <button class="btn btn-success sendbtn mt-3" (click)="sendMessage()"><i class="fa fa-paper-plane"></i> Enviar</button>
     </div>
   </div>

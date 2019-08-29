@@ -20,6 +20,7 @@ export class AppComponent  {
   msg: string;
   resultados: Message[];
   consultando = true;
+  session = this.getSession();
 
   constructor(private chatBoot: BootService) {
     this.initBoot();
@@ -30,7 +31,7 @@ export class AppComponent  {
 
     this.chatBoot.getToken().subscribe(() => {
 
-      this.chatBoot.getResponse('oi')
+      this.chatBoot.getResponse('oi', this.session)
       .subscribe((response: any) => {
 
         this.consultando = false;
@@ -51,7 +52,7 @@ export class AppComponent  {
   sendMessage() {
     this.consultando = true;
     this.resultados.push({ remetente: 'eu', mensagem: this.msg, data: new Date() })
-    this.chatBoot.getResponse(this.removerAcentos(this.msg))
+    this.chatBoot.getResponse(this.msg, this.session)
       .subscribe((response: any) => {
 
         this.consultando = false;
@@ -84,6 +85,11 @@ export class AppComponent  {
 
   private removerAcentos(s) {
     return s.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+  }
+
+  private getSession(): string {
+    // tslint:disable-next-line: max-line-length
+    return 'nio-' + new Date().getDate() + '-' + new Date().getMonth() + '-' + new Date().getFullYear() + '-' + '' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds() + ':' + new Date().getMilliseconds();
   }
 
 }

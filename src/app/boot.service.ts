@@ -9,10 +9,11 @@ export class BootService {
 
   private accessToken: string;
 
-  getResponse(query: string) {
+  getResponse(query: string , session: string) {
+
+    console.log('session_id -' + session);
 
     const projectId = 'validacao-1fd22';
-    const session = this.getSession();
 
     const config = {
       headers: {
@@ -45,8 +46,4 @@ export class BootService {
       .pipe(map(token => this.accessToken = token.toString().slice(6)));
   }
 
-  private getSession(): string {
-    // tslint:disable-next-line: max-line-length
-    return 'nio-' + new Date().getDate() + '-' + new Date().getMonth() + '-' + new Date().getFullYear() + '-' + '' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds() + ':' + new Date().getMilliseconds();
-  }
 }
