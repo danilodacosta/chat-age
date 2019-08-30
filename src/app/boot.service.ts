@@ -15,6 +15,8 @@ export class BootService {
 
     const projectId = 'validacao-1fd22';
 
+    console.log(this.accessToken)
+
     const config = {
       headers: {
         Authorization: 'Bearer ' + this.accessToken,

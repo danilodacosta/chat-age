@@ -12,13 +12,12 @@ export interface Message {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-
-export class AppComponent  {
-
+export class AppComponent {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
   msg: string;
   resultados: Message[];
+  sugestoes: string[];
   consultando = true;
   session = this.getSession();
 
@@ -30,43 +29,64 @@ export class AppComponent  {
     this.resultados = [];
 
     this.chatBoot.getToken().subscribe(() => {
+      this.chatBoot
+        .getResponse('oi', this.session)
+        .subscribe((response: any) => {
+          this.consultando = false;
 
-      this.chatBoot.getResponse('oi', this.session)
-      .subscribe((response: any) => {
+          //  console.log(response);
 
-        this.consultando = false;
+          // Resposta Boot
+          this.resultados.push({
+            remetente: 'boot',
+            mensagem: response.queryResult.fulfillmentText,
+            data: new Date()
+          });
 
-        console.log(response);
+          // Sugestões
+          response.queryResult.fulfillmentMessages.forEach(element => {
+            if (element.suggestions) {
+              this.sugestoes = [];
+                element.suggestions.suggestions.forEach(sugestao => {
+                  this.sugestoes.push(sugestao.title);
+              });
+            }
 
-        this.resultados.push({ remetente: 'boot', mensagem: response.queryResult.fulfillmentText , data: new Date() });
-
-      //  response.queryResult.fulfillmentText.messages.forEach((element) => {
-       //   this.resultados.push({ remetente: 'boot', mensagem: element.speech, data: response.timestamp })
-       // });
-      });
-
+            //this.resultados.push({ remetente: 'boot', mensagem: element.speech, data: response.timestamp })
+          });
+          //  response.queryResult.fulfillmentText.messages.forEach((element) => {
+          //   this.resultados.push({ remetente: 'boot', mensagem: element.speech, data: response.timestamp })
+          // });
+        });
     });
-
   }
 
-  sendMessage() {
+  sendMessage(msg?: string) {
+    this.sugestoes = [];
     this.consultando = true;
-    this.resultados.push({ remetente: 'eu', mensagem: this.msg, data: new Date() })
-    this.chatBoot.getResponse(this.msg, this.session)
+    this.resultados.push({
+      remetente: 'eu',
+      mensagem: msg || this.msg,
+      data: new Date()
+    });
+    this.chatBoot
+      .getResponse(this.msg, this.session)
       .subscribe((response: any) => {
-
         this.consultando = false;
 
-        console.log(response);
+        // console.log(response);
 
-        this.resultados.push({ remetente: 'boot', mensagem: response.queryResult.fulfillmentText , data: new Date() });
+        this.resultados.push({
+          remetente: 'boot',
+          mensagem: response.queryResult.fulfillmentText,
+          data: new Date()
+        });
 
-      /*
+        /*
         lista.result.fulfillment.messages.forEach((element) => {
           this.resultados.push({ remetente: 'boot', mensagem: element.speech, data: lista.timestamp })
         });
       */
-
       });
 
     this.msg = '';
@@ -80,16 +100,31 @@ export class AppComponent  {
   scrollToBottom(): void {
     try {
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch (err) { }
+    } catch (err) {}
   }
 
   private removerAcentos(s) {
-    return s.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+    return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   }
 
   private getSession(): string {
     // tslint:disable-next-line: max-line-length
-    return 'nio-' + new Date().getDate() + '-' + new Date().getMonth() + '-' + new Date().getFullYear() + '-' + '' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds() + ':' + new Date().getMilliseconds();
+    return (
+      'nio-' +
+      new Date().getDate() +
+      '-' +
+      new Date().getMonth() +
+      '-' +
+      new Date().getFullYear() +
+      '-' +
+      '' +
+      new Date().getHours() +
+      ':' +
+      new Date().getMinutes() +
+      ':' +
+      new Date().getSeconds() +
+      ':' +
+      new Date().getMilliseconds()
+    );
   }
-
 }
