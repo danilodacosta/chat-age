@@ -11,11 +11,9 @@ export class BootService {
 
   getResponse(query: string , session: string) {
 
-    console.log('session_id -' + session);
+    console.log('query -' + query);
 
     const projectId = 'validacao-1fd22';
-
-    console.log(this.accessToken)
 
     const config = {
       headers: {

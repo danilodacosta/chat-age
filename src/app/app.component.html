@@ -1,10 +1,39 @@
 <nav class="navbar navbar-expand-lg navbar-light" style="background: #eaeaea; color:#1f9848">
-    <a class="navbar-brand">
-      <img src="../assets/img/logo_amazonia.png" width="200px">
-    </a>
-    <h4><i class="fas fa-robot"></i> Fale com o nosso atendente </h4>
+  <a class="navbar-brand">
+    <img src="../assets/img/logo_amazonia.png" width="200px">
+  </a>
+  <h4><i class="fas fa-robot"></i> Fale com o nosso atendente </h4>
 </nav>
 <div class="container">
+    <div class="row justify-content-center">
+        <div class="col">
+           <button  type="button" id="btn-news-prev" class="btn-carrosel float-right"><i class="fa fa-angle-left"></i></button>
+         </div>
+         <div class="col-6 col-lg-4">
+           <div id="carousel" class="carousel slide " data-ride="carousel">
+             <div class="carousel-inner">
+               <div class="carousel-item active">
+                 <img src="../assets/img/noticia-thumb.jpg" class="d-block w-100" alt="...">
+               </div>
+               <div class="carousel-item">
+                 <img src="../assets/img/noticia-thumb.jpg" class="d-block w-100" alt="...">
+               </div>
+               <div class="carousel-item">
+                 <img src="../assets/img/noticia-thumb.jpg" class="d-block w-100" alt="...">
+               </div>
+             </div>
+           </div>
+
+          
+
+           
+         </div>
+         <div class="col">
+           <button type="button" id="btn-news-next" class="btn-carrosel float-left"><i class="fa fa-angle-right"></i></button>
+         </div>
+       </div>
+
+
   <!-- <div class="row align-items-center">
     <div class="mx-auto">
       <h3><i class="fas fa-robot"></i> Ai-Age ChatBoot </h3>
@@ -35,13 +64,19 @@
             </div>
           </div>
 
+          <div class="item" (click)="alerta()">
+              click here !
+          </div>
+        
         </div>
+        
         <div *ngIf="consultando">
           <div class="spinner-grow spinner-grow-sm" role="status"></div>
           <div class="spinner-grow spinner-grow-sm" role="status"></div>
           <div class="spinner-grow spinner-grow-sm" role="status"></div>
         </div>
       </ul>
+     
     </div>
   </div>
 
@@ -54,4 +89,5 @@
       <button class="btn btn-success sendbtn mt-3" (click)="sendMessage()"><i class="fa fa-paper-plane"></i>
         Enviar</button>
     </div>
-  </div>
+  </div> 
+</div> 

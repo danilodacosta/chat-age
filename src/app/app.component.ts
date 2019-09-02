@@ -1,11 +1,19 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { BootService } from './boot.service';
+
+import * as $ from 'jquery';
 
 export interface Message {
   remetente?: string;
   mensagem: string;
   data?: Date;
 }
+
+export interface Carrosel {
+  description?: string;
+  image: string;  
+}
+
 
 @Component({
   selector: 'app-root',
@@ -21,8 +29,9 @@ export class AppComponent {
   consultando = true;
   session = this.getSession();
 
-  constructor(private chatBoot: BootService) {
+  constructor(private chatBoot: BootService, private ngZone: NgZone) {
     this.initBoot();
+      
   }
 
   initBoot() {
@@ -33,9 +42,7 @@ export class AppComponent {
         .getResponse('oi', this.session)
         .subscribe((response: any) => {
           this.consultando = false;
-
-          //  console.log(response);
-
+          
           // Resposta Boot
           this.resultados.push({
             remetente: 'boot',
@@ -58,10 +65,11 @@ export class AppComponent {
           //   this.resultados.push({ remetente: 'boot', mensagem: element.speech, data: response.timestamp })
           // });
         });
-    });
+     });
   }
 
   sendMessage(msg?: string) {
+
     this.sugestoes = [];
     this.consultando = true;
     this.resultados.push({
@@ -69,18 +77,33 @@ export class AppComponent {
       mensagem: msg || this.msg,
       data: new Date()
     });
+
     this.chatBoot
-      .getResponse(this.msg, this.session)
+      .getResponse(msg || this.msg, this.session)
       .subscribe((response: any) => {
         this.consultando = false;
 
-        // console.log(response);
+        console.log(response);
 
         this.resultados.push({
           remetente: 'boot',
           mensagem: response.queryResult.fulfillmentText,
           data: new Date()
         });
+
+
+  // Sugestões
+  response.queryResult.fulfillmentMessages.forEach(element => {
+    if (element.suggestions) {
+      this.sugestoes = [];
+        element.suggestions.suggestions.forEach(sugestao => {
+          this.sugestoes.push(sugestao.title);
+      });
+    }
+
+    //this.resultados.push({ remetente: 'boot', mensagem: element.speech, data: response.timestamp })
+  });
+
 
         /*
         lista.result.fulfillment.messages.forEach((element) => {
@@ -94,7 +117,7 @@ export class AppComponent {
 
   // tslint:disable-next-line: use-life-cycle-interface
   ngAfterViewChecked() {
-    this.scrollToBottom();
+    this.scrollToBottom();    
   }
 
   scrollToBottom(): void {
@@ -127,4 +150,26 @@ export class AppComponent {
       new Date().getMilliseconds()
     );
   }
+
+  private initCarrosel(){
+    $(document).ready(function(){
+
+      console.log("jquery is ready")
+    
+      $("#btn-news-prev").click(function(){
+        $('.carousel').carousel('prev');
+        });
+    
+        $("#btn-news-next").click(function(){
+        $('.carousel').carousel('next');
+        });
+    
+    });
+  }
+
+
+  public alerta() {
+  
+  }
+
 }
