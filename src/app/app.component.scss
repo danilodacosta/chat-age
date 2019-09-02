@@ -21,7 +21,7 @@
 }
 
 .messages .message.left .avatar {
-  background-color: #1f9848;
+  //background-color: #1f9848;
   float: left;
 }
 
@@ -143,3 +143,14 @@ div.justify-content-center {
   z-index: 1;
   outline: 0;
 }
+// div carousel
+div.row:nth-child(5){
+  margin-top: -30px;
+}
+div#carousel{
+  a {
+    cursor: pointer;
+  }
+}
+
+

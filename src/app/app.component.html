@@ -5,34 +5,6 @@
   <h4><i class="fas fa-robot"></i> Fale com o nosso atendente </h4>
 </nav>
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col">
-           <button  type="button" id="btn-news-prev" class="btn-carrosel float-right"><i class="fa fa-angle-left"></i></button>
-         </div>
-         <div class="col-6 col-lg-4">
-           <div id="carousel" class="carousel slide " data-ride="carousel">
-             <div class="carousel-inner">
-               <div class="carousel-item active">
-                 <img src="../assets/img/noticia-thumb.jpg" class="d-block w-100" alt="...">
-               </div>
-               <div class="carousel-item">
-                 <img src="../assets/img/noticia-thumb.jpg" class="d-block w-100" alt="...">
-               </div>
-               <div class="carousel-item">
-                 <img src="../assets/img/noticia-thumb.jpg" class="d-block w-100" alt="...">
-               </div>
-             </div>
-           </div>
-
-          
-
-           
-         </div>
-         <div class="col">
-           <button type="button" id="btn-news-next" class="btn-carrosel float-left"><i class="fa fa-angle-right"></i></button>
-         </div>
-       </div>
-
 
   <!-- <div class="row align-items-center">
     <div class="mx-auto">
@@ -47,7 +19,10 @@
         <div *ngFor="let msg of resultados">
           <li class="message appeared" [ngClass]="{'left':msg.remetente === 'boot',
                         'right':msg.remetente === 'eu'     }">
-            <div class="avatar"></div>
+            <div class="avatar">
+                <img *ngIf="msg.remetente === 'boot'" src="../assets/img/boot.jpg" width="80">
+            </div>
+
             <div class="text_wrapper">
               <div class="text">
                 <p class="time"> ({{msg.data | date:'HH:mm:ss'}})</p>
@@ -55,6 +30,10 @@
               </div>
             </div>
           </li>
+
+        </div>
+
+        <div class="container" style="padding: 5px;">
 
           <!--Buttons-->
           <div class="row">
@@ -64,23 +43,42 @@
             </div>
           </div>
 
-          <div class="item" (click)="alerta()">
-              click here !
-          </div>
-        
         </div>
-        
+
+        <!--Carrosel-->
+        <div class="row justify-content-center mb-5" *ngIf="carousel?.length > 0">
+            <div class="col">
+              <a type="button" href="#carousel" role="button" data-slide="prev" class="btn-carrosel float-right"><i
+                  class="fa fa-angle-left"></i></a>
+            </div>
+            <div class="col-6 col-lg-4">
+              <div id="carousel" class="carousel slide " data-ride="carousel">
+                <div class="carousel-inner">
+                  <div  class="carousel-item" [ngClass]="{'active': i == 0}" *ngFor="let item of carousel; let i = index">
+                   <a (click)="sendMessage(item.description)">
+                     <img [src]="item.image" class="d-block w-100" [alt]="item.description">
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <a type="button" href="#carousel" role="button" data-slide="next" class="btn-carrosel float-left"><i
+                  class="fa fa-angle-right"></i></a>
+            </div>
+          </div>
+
         <div *ngIf="consultando">
           <div class="spinner-grow spinner-grow-sm" role="status"></div>
           <div class="spinner-grow spinner-grow-sm" role="status"></div>
           <div class="spinner-grow spinner-grow-sm" role="status"></div>
         </div>
       </ul>
-     
     </div>
   </div>
 
   <div class="row align-items-center justify-content-center mb-5">
+    <!--<form [formGroup]="mensagemForm">-->
     <div class="col-sm-6">
       <input placeholder="Digite uma mensagem" type="text" class="form-control mt-3" (keyup.enter)="sendMessage()"
         [(ngModel)]="msg" />
@@ -89,5 +87,6 @@
       <button class="btn btn-success sendbtn mt-3" (click)="sendMessage()"><i class="fa fa-paper-plane"></i>
         Enviar</button>
     </div>
-  </div> 
-</div> 
+  <!--</form>-->
+  </div>
+</div>

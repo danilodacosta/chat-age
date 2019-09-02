@@ -1,7 +1,6 @@
-import { Component, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { BootService } from './boot.service';
-
-import * as $ from 'jquery';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 export interface Message {
   remetente?: string;
@@ -9,11 +8,10 @@ export interface Message {
   data?: Date;
 }
 
-export interface Carrosel {
+export interface Carousel {
   description?: string;
-  image: string;  
+  image: string;
 }
-
 
 @Component({
   selector: 'app-root',
@@ -23,15 +21,20 @@ export interface Carrosel {
 export class AppComponent {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
+  mensagemForm: FormGroup;
   msg: string;
   resultados: Message[];
+  carousel: Carousel[];
   sugestoes: string[];
   consultando = true;
   session = this.getSession();
 
-  constructor(private chatBoot: BootService, private ngZone: NgZone) {
+  constructor(private chatBoot: BootService, private formBuilder: FormBuilder ) {
     this.initBoot();
-      
+
+    this.mensagemForm = this.formBuilder.group({
+      mensagem: [null, [Validators.required]],
+    });
   }
 
   initBoot() {
@@ -42,7 +45,7 @@ export class AppComponent {
         .getResponse('oi', this.session)
         .subscribe((response: any) => {
           this.consultando = false;
-          
+
           // Resposta Boot
           this.resultados.push({
             remetente: 'boot',
@@ -54,23 +57,24 @@ export class AppComponent {
           response.queryResult.fulfillmentMessages.forEach(element => {
             if (element.suggestions) {
               this.sugestoes = [];
-                element.suggestions.suggestions.forEach(sugestao => {
-                  this.sugestoes.push(sugestao.title);
+              this.carousel = [];
+              element.suggestions.suggestions.forEach(sugestao => {
+                this.sugestoes.push(sugestao.title);
               });
             }
 
-            //this.resultados.push({ remetente: 'boot', mensagem: element.speech, data: response.timestamp })
+            // this.resultados.push({ remetente: 'boot', mensagem: element.speech, data: response.timestamp })
           });
           //  response.queryResult.fulfillmentText.messages.forEach((element) => {
           //   this.resultados.push({ remetente: 'boot', mensagem: element.speech, data: response.timestamp })
           // });
         });
-     });
+    });
   }
 
   sendMessage(msg?: string) {
-
     this.sugestoes = [];
+    this.carousel = [];
     this.consultando = true;
     this.resultados.push({
       remetente: 'eu',
@@ -91,19 +95,31 @@ export class AppComponent {
           data: new Date()
         });
 
+        response.queryResult.fulfillmentMessages.forEach(element => {
 
-  // Sugestões
-  response.queryResult.fulfillmentMessages.forEach(element => {
-    if (element.suggestions) {
-      this.sugestoes = [];
-        element.suggestions.suggestions.forEach(sugestao => {
-          this.sugestoes.push(sugestao.title);
-      });
-    }
+          // Sugestões
+          if (element.suggestions) {
+            this.sugestoes = [];
+            element.suggestions.suggestions.forEach(sugestao => {
+              this.sugestoes.push(sugestao.title);
+            });
+          }
 
-    //this.resultados.push({ remetente: 'boot', mensagem: element.speech, data: response.timestamp })
-  });
+          // Carousel
+          if (element.carouselSelect) {
+            this.carousel = [];
+            element.carouselSelect.items.forEach(item => {
+              const carosel = {
+                description: item.description,
+                image: item.image.imageUri
+              };
 
+              this.carousel.push(carosel);
+            });
+          }
+
+          // this.resultados.push({ remetente: 'boot', mensagem: element.speech, data: response.timestamp })
+        });
 
         /*
         lista.result.fulfillment.messages.forEach((element) => {
@@ -117,7 +133,7 @@ export class AppComponent {
 
   // tslint:disable-next-line: use-life-cycle-interface
   ngAfterViewChecked() {
-    this.scrollToBottom();    
+    this.scrollToBottom();
   }
 
   scrollToBottom(): void {
@@ -150,26 +166,4 @@ export class AppComponent {
       new Date().getMilliseconds()
     );
   }
-
-  private initCarrosel(){
-    $(document).ready(function(){
-
-      console.log("jquery is ready")
-    
-      $("#btn-news-prev").click(function(){
-        $('.carousel').carousel('prev');
-        });
-    
-        $("#btn-news-next").click(function(){
-        $('.carousel').carousel('next');
-        });
-    
-    });
-  }
-
-
-  public alerta() {
-  
-  }
-
 }
