@@ -2,7 +2,7 @@
   <a class="navbar-brand">
     <img src="../assets/img/logo_amazonia.png" width="200px">
   </a>
-  <h4><i class="fas fa-robot"></i> Fale com o nosso atendente </h4>
+ <!-- <h4><i class="fas fa-robot"></i> Fale com o nosso atendente </h4>-->
 </nav>
 <div class="container">
 
@@ -52,7 +52,7 @@
                   class="fa fa-angle-left"></i></a>
             </div>
             <div class="col-6 col-lg-4">
-              <div id="carousel" class="carousel slide " data-ride="carousel">
+              <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="false">
                 <div class="carousel-inner">
                   <div  class="carousel-item" [ngClass]="{'active': i == 0}" *ngFor="let item of carousel; let i = index">
                    <a (click)="sendMessage(item.description)">
@@ -78,7 +78,6 @@
   </div>
 
   <div class="row align-items-center justify-content-center mb-5">
-    <!--<form [formGroup]="mensagemForm">-->
     <div class="col-sm-6">
       <input placeholder="Digite uma mensagem" type="text" class="form-control mt-3" (keyup.enter)="sendMessage()"
         [(ngModel)]="msg" />
@@ -87,6 +86,5 @@
       <button class="btn btn-success sendbtn mt-3" (click)="sendMessage()"><i class="fa fa-paper-plane"></i>
         Enviar</button>
     </div>
-  <!--</form>-->
-  </div>
+    </div>
 </div>

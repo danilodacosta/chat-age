@@ -1,6 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { BootService } from './boot.service';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 export interface Message {
   remetente?: string;
@@ -21,20 +20,15 @@ export interface Carousel {
 export class AppComponent {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
-  mensagemForm: FormGroup;
-  msg: string;
+  msg = '';
   resultados: Message[];
   carousel: Carousel[];
   sugestoes: string[];
   consultando = true;
   session = this.getSession();
 
-  constructor(private chatBoot: BootService, private formBuilder: FormBuilder ) {
+  constructor(private chatBoot: BootService) {
     this.initBoot();
-
-    this.mensagemForm = this.formBuilder.group({
-      mensagem: [null, [Validators.required]],
-    });
   }
 
   initBoot() {
@@ -72,18 +66,23 @@ export class AppComponent {
     });
   }
 
-  sendMessage(msg?: string) {
+  sendMessage(sugestao?: string) {
+
+    if (this.msg.length === 0 && sugestao === undefined) {
+      return;
+    }
+
     this.sugestoes = [];
     this.carousel = [];
     this.consultando = true;
     this.resultados.push({
       remetente: 'eu',
-      mensagem: msg || this.msg,
+      mensagem: sugestao || this.msg,
       data: new Date()
     });
 
     this.chatBoot
-      .getResponse(msg || this.msg, this.session)
+      .getResponse(sugestao || this.msg, this.session)
       .subscribe((response: any) => {
         this.consultando = false;
 
@@ -97,7 +96,7 @@ export class AppComponent {
 
         response.queryResult.fulfillmentMessages.forEach(element => {
 
-          // Sugestões
+          /* SUGESTÃO */
           if (element.suggestions) {
             this.sugestoes = [];
             element.suggestions.suggestions.forEach(sugestao => {
@@ -105,7 +104,7 @@ export class AppComponent {
             });
           }
 
-          // Carousel
+          /* CAROUSEL */
           if (element.carouselSelect) {
             this.carousel = [];
             element.carouselSelect.items.forEach(item => {
