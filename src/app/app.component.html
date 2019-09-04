@@ -57,6 +57,9 @@
                   <div  class="carousel-item" [ngClass]="{'active': i == 0}" *ngFor="let item of carousel; let i = index">
                    <a (click)="sendMessage(item.description)">
                      <img [src]="item.image" class="d-block w-100" [alt]="item.description">
+                     <div class="d-md-block text-center">
+                      <h5>{{item.description}}</h5>
+                    </div>
                     </a>
                   </div>
                 </div>

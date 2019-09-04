@@ -125,13 +125,13 @@ input {
 .sendbtn {
   width: 100%;
   border-radius: 10px;
-  text-transform: uppercase;
+  //text-transform: uppercase;
 }
 
 div.justify-content-center {
-    div.col {
-        margin-top: 30px;
-    }
+  div.col {
+    margin-top: 30px;
+  }
 }
 
 .btn-carrosel {
@@ -143,14 +143,21 @@ div.justify-content-center {
   z-index: 1;
   outline: 0;
 }
+
+div.carousel-item {
+  img {
+    border: 1px solid #325d88;
+    border-radius: 15px;
+    //margin-bottom: 5px;
+  }
+}
+
 // div carousel
-div.row:nth-child(5){
+div.row:nth-child(5) {
   margin-top: -30px;
 }
-div#carousel{
+div#carousel {
   a {
     cursor: pointer;
   }
 }
-
-
