@@ -2,7 +2,7 @@
   <!--<a class="navbar-brand">
     <img src="../assets/img/logo_amazonia.png" width="200px">
   </a>-->
- <h4>Fale com o nosso atendente virtual</h4>
+  <h4>Fale com o nosso atendente virtual</h4>
 </nav>
 <div class="container">
 
@@ -20,7 +20,7 @@
           <li class="message appeared" [ngClass]="{'left':msg.remetente === 'boot',
                         'right':msg.remetente === 'eu'     }">
             <div class="avatar">
-                <img *ngIf="msg.remetente === 'boot'" src="./assets/img/boot.jpg" width="80">
+              <img *ngIf="msg.remetente === 'boot'" src="./assets/img/boot.jpg" width="80">
             </div>
 
             <div class="text_wrapper">
@@ -47,29 +47,36 @@
 
         <!--Carrosel-->
         <div class="row justify-content-center mb-5" *ngIf="carousel?.length > 0">
-            <div class="col">
-              <a type="button" href="#carousel" role="button" data-slide="prev" class="btn-carrosel float-right"><i
-                  class="fa fa-angle-left"></i></a>
-            </div>
-            <div class="col-6 col-lg-4">
-              <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="false">
-                <div class="carousel-inner">
-                  <div  class="carousel-item" [ngClass]="{'active': i == 0}" *ngFor="let item of carousel; let i = index">
-                   <a (click)="sendMessage(item.description)">
-                     <img [src]="item.image" class="d-block w-100" [alt]="item.description">
-                     <div class="d-md-block text-center">
+          <div class="col">
+            <a type="button" href="#carousel" role="button" data-slide="prev" class="btn-carrosel float-right"><i
+                class="fa fa-angle-left"></i></a>
+          </div>
+          <div class="col-6 col-lg-4">
+            <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+              <div class="carousel-inner">
+                <div class="carousel-item" [ngClass]="{'active': i == 0}" *ngFor="let item of carousel; let i = index">
+                  <a (click)="sendMessage(item.description)">
+                    <img [src]="item.image" class="d-block w-100" [alt]="item.description">
+                    <div class="d-md-block text-center">
                       <h5>{{item.description}}</h5>
                     </div>
-                    </a>
-                  </div>
+                  </a>
                 </div>
               </div>
             </div>
-            <div class="col">
-              <a type="button" href="#carousel" role="button" data-slide="next" class="btn-carrosel float-left"><i
-                  class="fa fa-angle-right"></i></a>
-            </div>
           </div>
+          <div class="col">
+            <a type="button" href="#carousel" role="button" data-slide="next" class="btn-carrosel float-left"><i
+                class="fa fa-angle-right"></i></a>
+          </div>
+        </div>
+
+        <!-- IMG ENDEREÇO -->
+        <div class="row d-md-block text-center" *ngIf="enderecoClinica">
+          <h5>{{enderecoClinica.accessibilityText}}</h5>
+          <img [src]="enderecoClinica.imageUri" class="rounded mx-auto d-block"
+            [alt]="enderecoClinica.accessibilityText">
+        </div>
 
         <div *ngIf="consultando">
           <div class="spinner-grow spinner-grow-sm" role="status"></div>
@@ -89,5 +96,5 @@
       <button class="btn btn-success sendbtn mt-3" (click)="sendMessage()"><i class="fa fa-paper-plane"></i>
         Enviar</button>
     </div>
-    </div>
+  </div>
 </div>
