@@ -2,7 +2,7 @@
   <!--<a class="navbar-brand">
     <img src="../assets/img/logo_amazonia.png" width="200px">
   </a>-->
- <h4><i class="fas fa-robot"></i> Fale com o nosso atendente virtual</h4>
+ <h4>Fale com o nosso atendente virtual</h4>
 </nav>
 <div class="container">
 
@@ -20,7 +20,7 @@
           <li class="message appeared" [ngClass]="{'left':msg.remetente === 'boot',
                         'right':msg.remetente === 'eu'     }">
             <div class="avatar">
-                <img *ngIf="msg.remetente === 'boot'" src="../assets/img/boot.jpg" width="80">
+                <img *ngIf="msg.remetente === 'boot'" src="./assets/img/boot.jpg" width="80">
             </div>
 
             <div class="text_wrapper">
