@@ -53,6 +53,11 @@
           </div>
           <div class="col-6 col-lg-4">
             <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+
+              <ol class="carousel-indicators">
+                <li data-target="#carousel" *ngFor="let item of carousel; let i = index" [attr.data-slide-to]="i" [ngClass]="{'active': i == 0}"></li>
+              </ol>
+
               <div class="carousel-inner">
                 <div class="carousel-item" [ngClass]="{'active': i == 0}" *ngFor="let item of carousel; let i = index">
                   <a (click)="sendMessage(item.description)">
@@ -73,7 +78,6 @@
 
         <!-- IMG ENDEREÇO -->
         <div class="row d-md-block text-center" *ngIf="enderecoClinica">
-          <h5>{{enderecoClinica.accessibilityText}}</h5>
           <img [src]="enderecoClinica.imageUri" class="rounded mx-auto d-block"
             [alt]="enderecoClinica.accessibilityText">
         </div>
