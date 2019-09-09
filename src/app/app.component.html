@@ -54,10 +54,6 @@
           <div class="col-6 col-lg-4">
             <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="false">
 
-              <ol class="carousel-indicators">
-                <li data-target="#carousel" *ngFor="let item of carousel; let i = index" [attr.data-slide-to]="i" [ngClass]="{'active': i == 0}"></li>
-              </ol>
-
               <div class="carousel-inner">
                 <div class="carousel-item" [ngClass]="{'active': i == 0}" *ngFor="let item of carousel; let i = index">
                   <a (click)="sendMessage(item.description)">
